@@ -1,0 +1,14 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Projetos": {
+    "message": "Projetos",
+    "description": "The label for category Projetos in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Guias": {
+    "message": "Guias",
+    "description": "The label for category Guias in sidebar tutorialSidebar"
+  }
+}

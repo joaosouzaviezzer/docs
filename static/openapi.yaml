@@ -1,0 +1,618 @@
+openapi: 3.0.3
+info:
+  title: Role Checker API
+  description: API para gerenciamento de usuários, cargos, permissões e projetos do Role Checker.
+  version: 1.0.0
+servers:
+  - url: https://localhost:3004
+paths:
+  /:
+    get:
+      summary: Health Check
+      tags:
+        - Health
+      description: Verifica o status da API.
+      responses:
+        '200':
+          description: API está ativa.
+
+  /auth/login:
+    post:
+      summary: Login
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                user_id:
+                  type: string
+              required:
+                - username
+                - user_id
+      responses:
+        '200':
+          description: Login bem-sucedido.
+
+  /users:
+    post:
+      summary: Criar usuário
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                ad_username:
+                  type: string
+                avatar_url:
+                  type: string
+              required: [name, email, ad_username, avatar_url]
+      responses:
+        '201':
+          description: Usuário criado.
+    get:
+      summary: Listar ou buscar usuários
+      tags:
+        - Usuários
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca usuários.
+
+  /users/{user_id}:
+    put:
+      summary: Alterar usuário
+      tags:
+        - Usuários
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Usuário atualizado.
+    delete:
+      summary: Excluir usuário
+      tags:
+        - Usuários
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Usuário excluído.
+
+  /roles:
+    post:
+      summary: Criar cargo
+      tags:
+        - Cargos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required: [name]
+      responses:
+        '201':
+          description: Cargo criado.
+    get:
+      summary: Listar ou buscar cargos
+      tags:
+        - Cargos
+      parameters:
+        - name: role_id
+          in: query
+          schema:
+            type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca cargos.
+
+  /roles/{role_id}:
+    put:
+      summary: Alterar cargo
+      tags:
+        - Cargos
+      parameters:
+        - name: role_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Cargo atualizado.
+    delete:
+      summary: Excluir cargo
+      tags:
+        - Cargos
+      parameters:
+        - name: role_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Cargo excluído.
+
+  /permissions:
+    post:
+      summary: Criar permissão
+      tags:
+        - Permissões
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                description:
+                  type: string
+              required: [code, description]
+      responses:
+        '201':
+          description: Permissão criada.
+    get:
+      summary: Listar ou buscar permissões
+      tags:
+        - Permissões
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca permissões.
+
+  /permissions/{permission_id}:
+    put:
+      summary: Alterar permissão
+      tags:
+        - Permissões
+      parameters:
+        - name: permission_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Permissão atualizada.
+    delete:
+      summary: Excluir permissão
+      tags:
+        - Permissões
+      parameters:
+        - name: permission_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Permissão excluída.
+
+  /projects:
+    post:
+      summary: Criar projeto
+      tags:
+        - Projetos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required: [name, description]
+      responses:
+        '201':
+          description: Projeto criado.
+    get:
+      summary: Listar ou buscar projetos
+      tags:
+        - Projetos
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca projetos.
+
+  /projects/{project}:
+    put:
+      summary: Alterar projeto
+      tags:
+        - Projetos
+      parameters:
+        - name: project
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Projeto atualizado.
+    delete:
+      summary: Excluir projeto
+      tags:
+        - Projetos
+      parameters:
+        - name: project
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Projeto excluído.
+
+  /role_permissions:
+    post:
+      summary: Criar role_permission
+      tags:
+        - Permissões de Cargo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_id:
+                  type: string
+                permission_id:
+                  type: string
+                project_id:
+                  type: string
+              required: [role_id, permission_id, project_id]
+      responses:
+        '201':
+          description: Role_permission criada.
+    get:
+      summary: Listar ou buscar role_permissions
+      tags:
+        - Permissões de Cargo
+      parameters:
+        - name: role_id
+          in: query
+          schema:
+            type: string
+        - name: permission_id
+          in: query
+          schema:
+            type: string
+        - name: project_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca role_permissions.
+
+  /role_permissions/{role_permission_id}:
+    put:
+      summary: Alterar role_permission
+      tags:
+        - Permissões de Cargo
+      parameters:
+        - name: role_permission_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Role_permission atualizada.
+    delete:
+      summary: Excluir role_permission
+      tags:
+        - Permissões de Cargo
+      parameters:
+        - name: role_permission_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Role_permission excluída.
+
+    /businesses:
+    post:
+      summary: Criar business
+      tags:
+        - Empresas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business_code:
+                  type: string
+                business_name:
+                  type: string
+              required: [business_code, business_name]
+      responses:
+        '201':
+          description: Business criado.
+    get:
+      summary: Listar ou buscar businesses
+      tags:
+        - Empresas
+      parameters:
+        - name: business_id
+          in: query
+          schema:
+            type: string
+        - name: business_code
+          in: query
+          schema:
+            type: string
+        - name: business_name
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca businesses.
+
+  /businesses/{business_id}:
+    put:
+      summary: Alterar business
+      tags:
+        - Empresas
+      parameters:
+        - name: business_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Business atualizado.
+    delete:
+      summary: Excluir business
+      tags:
+        - Empresas
+      parameters:
+        - name: business_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Business excluído.
+
+  /user_businesses:
+    post:
+      summary: Criar user_business
+      tags:
+        - Usuários de Empresa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                business_id:
+                  type: string
+              required: [user_id, business_id]
+      responses:
+        '201':
+          description: User_business criado.
+    get:
+      summary: Listar ou buscar user_businesses
+      tags:
+        - Usuários de Empresa
+      parameters:
+        - name: business_id
+          in: query
+          schema:
+            type: string
+        - name: code
+          in: query
+          schema:
+            type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca user_businesses.
+
+  /user_businesses/{business_id}:
+    put:
+      summary: Alterar user_business
+      tags:
+        - Usuários de Empresa
+      parameters:
+        - name: business_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: User_business atualizado.
+    delete:
+      summary: Excluir user_business
+      tags:
+        - Usuários de Empresa
+      parameters:
+        - name: business_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User_business excluído.
+
+
+  /operators:
+    post:
+      summary: Criar operador
+      tags:
+        - Operadores
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                color_hex:
+                  type: string
+              required: [user_id, color_hex]
+      responses:
+        '201':
+          description: Operador criado.
+    get:
+      summary: Listar ou buscar operadores
+      tags:
+        - Operadores
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: color_hex
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista ou busca operadores.
+
+  /operators/{operator_id}:
+    put:
+      summary: Alterar operador
+      tags:
+        - Operadores
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: color_hex
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Operador atualizado.
+    delete:
+      summary: Excluir operador
+      tags:
+        - Operadores
+      parameters:
+        - name: operator_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operador excluído.
